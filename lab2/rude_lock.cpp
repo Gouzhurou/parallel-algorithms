@@ -34,20 +34,13 @@ public:
     void wait_and_pop(T& value) 
     {
         std::unique_lock<std::mutex> lk(mut);
-        cv.wait(lk, [this] {return !is_empty();});
+        cv.wait(lk, [this] {return !my_queue.empty();});
         value = std::move(my_queue.front());
         my_queue.pop();
     }
 
-    bool is_empty() 
-    {
-        std::lock_guard<std::mutex> lk(mut);
-        return my_queue.empty();
-    }
-
     // int size() {return my_queue.size();}
 };
-
 
 
 std::vector<std::vector<int>> generate_matrix(int rows, int columns)

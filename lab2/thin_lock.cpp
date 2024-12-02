@@ -24,31 +24,31 @@ private:
     };
 
     // Synchronizing access to shared resources in multithreaded applications
-    std::mutex head_mutex;
+    std::mutex _head_mutex;
     // Unique property
-    std::unique_ptr<Node> head;
-    std::mutex tail_mutex;
-    Node* tail;
+    std::unique_ptr<Node> _head;
+    std::mutex _tail_mutex;
+    Node* _tail;
     // notifications between threads
-    std::condition_variable cvEmpty;
-    std::condition_variable cvFull;
-    int size;
+    std::condition_variable _cv_empty;
+    std::condition_variable _cv_full;
+    int _size;
 
     std::unique_ptr<Node> wait_pop_head(T& value) 
     {
         // more flexible locking than std::lock_guard<std::mutex>
-        std::unique_lock<std::mutex> head_lock(head_mutex);
-        cvEmpty.wait(head_lock, [&]{ return !is_empty(); });
+        std::unique_lock<std::mutex> head_lock(_head_mutex);
+        _cv_empty.wait(head_lock, [&]{ return !is_empty(); });
 
-        value = std::move(*head->data);
-        std::unique_ptr<Node> old_head = std::move(head);
-        head = std::move(old_head->next);
-        size--;
+        value = std::move(*_head->data);
+        std::unique_ptr<Node> old_head = std::move(_head);
+        _head = std::move(old_head->next);
+        _size--;
         return old_head;
     }
 
 public:
-    QueueThin() : head(new Node()), tail(head.get()), size(0) {}
+    QueueThin() : _head(new Node()), _tail(_head.get()), _size(0) {}
 
     void push(T new_value) 
     {
@@ -56,26 +56,26 @@ public:
         std::unique_ptr<Node> p(new Node());
         Node* const new_tail = p.get();
         {
-            std::unique_lock<std::mutex> tail_lock(tail_mutex);
-            cvFull.wait(tail_lock, [&]{ return size < MAX_QUEUE_SIZE; });
-            tail->data = new_data;
-            tail->next = std::move(p);
-            tail = new_tail;
-            size++;
+            std::unique_lock<std::mutex> tail_lock(_tail_mutex);
+            _cv_full.wait(tail_lock, [&]{ return _size < MAX_QUEUE_SIZE; });
+            _tail->data = new_data;
+            _tail->next = std::move(p);
+            _tail = new_tail;
+            _size++;
         }
-        cvEmpty.notify_one();
+        _cv_empty.notify_one();
     }
 
     void wait_and_pop(T& value) 
     {
         std::unique_ptr<Node> const old_head = wait_pop_head(value);
-        cvFull.notify_one();
+        _cv_full.notify_one();
     }
 
     bool is_empty() 
     {
-        // std::unique_lock<std::mutex> tail_lock(tail_mutex);
-        return (head.get() == tail);
+        // std::unique_lock<std::mutex> tail_lock(_tail_mutex);
+        return (_head.get() == _tail);
     }
 
 };
