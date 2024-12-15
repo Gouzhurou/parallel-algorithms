@@ -1,19 +1,18 @@
 # Lab2: Implementing Thread-Safe Data Structures with Locks
-Implement iterative (potentially infinite) execution of data preparation, processing and output using the producer-consumer pattern (based on Lab. 1 (parts 1.2.1 and 1.2.2)).
-- The number of producers and consumers must be variable.
-- Ensure parallel execution of the threads for processing the finished portion of data, preparing the next portion of data and outputting the previously obtained results.
-- Use the “condition variable” mechanism.
+Реализовать итерационное (потенциально бесконечное) выполнение подготовки, обработки и вывода данных по шаблону  “производитель-потребитель” (на основе лаб. 1 (части 1.2.1 и 1.2.2) ).
+- Количество производителей и потребителей должно быть изменяемым.
+- Обеспечить параллельное выполнение потоков обработки готовой порции данных, подготовки следующей порции данных и вывода предыдущих полученных результатов.
+- Использовать механизм “условных переменных”.
 
-2.1 Use a queue with “coarse” locking.
+2.1 Использовать очередь с “грубой” блокировкой.
 
-2.2 Use a queue with “fine” locking.
+2.2 Использовать очередь с “тонкой” блокировкой.
 
-- The queue must have an upper limit on the number of elements.
+- Очередь должна иметь ограничение сверху по количеству элементов.
+- Выполнить тестирование п. 2.1 и 2.2, убедиться в корректности результатов.
 
-Perform testing of items 2.1 and 2.2, ensure the correctness of the results.
-
-In the report:
-Compare the performance of 2.1 and 2.2 depending on the number of producers and consumers.
+В отчёте:
+Сравнить производительность 2.1. и 2.2 в зависимости от количества производителей и потребителей.
 # loading program
 - rude: g++ -o rude src/rude_lock.cpp src/rude_global.cpp
 - thin: g++ -o thin src/thin_lock.cpp src/thin_global.cpp 
