@@ -1,4 +1,4 @@
-# Lab2: Implementing Thread-Safe Data Structures with Locks
+# Lab2: Implementing Thread-Safe Data Structures without Locks
 Реализовать очередь, удовлетворяющую lock-free гарантии прогресса (очередь Майкла-Скотта).
 
 Протестировать доступ к реализованной структуре  данных для случаев разного количества потоков производителей и потребителей (аналогично работе 2).  
