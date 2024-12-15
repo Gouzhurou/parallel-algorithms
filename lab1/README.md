@@ -1,21 +1,21 @@
 # Lab1: Basics of working with processes and threads
-The lab consists of 3 subtasks that perform the same task using processes or threads. The implementation is done in C/C++. Perform the multiplication of 2 matrices. Input matrices are entered from a file (or generated). The result is written to the file. 
+Лабораторная состоит из 3х подзадач, которые выполняют одинаковую задачу с использованием процессов или потоков. Реализация выполняется на C/C++. Выполнить умножение 2х матриц. Входные матрицы вводятся из файла (или генерируются). Результат записывается в файл.
 
 1.1.1
-Perform the task, dividing it into 3 processes. Choose a data exchange mechanism between the processes.
-Process 1: fills the input matrices with data (reads from a file or generates them in some way).
-Process 2: performs the multiplication
-Process 3: outputs the result
+Выполнить задачу, разбив её на 3 процесса. Выбрать механизм обмена данными между процессами.
+Процесс 1: заполняет данными входные матрицы (читает из файла или генерирует их некоторым образом).
+Процесс 2: выполняет умножение
+Процесс 3: выводит результат
 
-1.2.1
-Similar to 1.1, using threads (std::threads)
+1.2.1 
+Аналогично 1.1, используя потоки (std::threads)
 
 1.2.2
-Divide the multiplication into P threads (you can use the “naive” method by rows and columns).
-Test by comparing the calculation result with the results from 1.2.1 / 1.1
+Разбить умножение на P потоков (можно “наивным” способом по по строкам-столбцам).
+Протестировать, сравнив результат вычислений с результатами из 1.2.1 / 1.1
 
-In the report:
-Investigate the relationship between the number of threads, the size of the input data, and the parameters of the target computing system. Formulate restrictions on the number of threads.
+В отчёте:
+Исследовать зависимость между количеством потоков, размерами входных данных и параметрами целевой вычислительной системы. Сформулировать ограничения на количество потоков.
 
 # loadind program
 - tast_num: g++ -o task src/task_num.cpp src/global.cpp
